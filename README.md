@@ -2,6 +2,7 @@
 Programación Patrones
 
 Fabricio Vargas Jimenez
+Andrey Bonilla Matamoros
 
 # Vimeo
 
