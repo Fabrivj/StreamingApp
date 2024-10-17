@@ -3,8 +3,6 @@ Programación Patrones
 
 Fabricio Vargas Jimenez
 Andrey Martinez Obando
-
-
 Andrey Bonilla Matamoros
 
 # Vimeo
