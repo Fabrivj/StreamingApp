@@ -69,7 +69,7 @@ public class VimeoService implements StreamingService {
 
             // Imprimir el código de estado y el cuerpo de la respuesta
             System.out.println("Código de estado: " + response.statusCode());//imprimo el codigo de resultado
-            //System.out.println("Respuesta de la API: " + response.body());
+            System.out.println("Respuesta de la API: " + response.body());
 
             // Verificar el código de estado
             if (response.statusCode() == 200) {
