@@ -26,7 +26,7 @@ public class Authentication {
             this.UltimoAcceso = null;
         }
 
-        // Getters and Setters
+      
         public String getID_Unique() {
             return ID_Unique;
         }
