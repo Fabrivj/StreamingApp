@@ -7,6 +7,7 @@ import java.util.List;
 public class ContentManager {
     private List<ContentItems> contentList;
 
+    
     // Constructor
     public ContentManager() {
         contentList = new ArrayList<>();
