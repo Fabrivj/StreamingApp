@@ -6,6 +6,7 @@ import java.util.List;
  *
  * @author Jonathan Méndez Herrera
  */
+
 public class SubscriptionManager {
     /**
      * Constructs a new SubscriptionManager with an empty list of subscriptions.
