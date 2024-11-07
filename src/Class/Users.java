@@ -7,7 +7,6 @@ public class Users {
     private String name;
     private String email;
     private String password;
-
     /**
      * Constructor for the Users class.
      *
