@@ -82,6 +82,7 @@ public class Subscriptions {
      */
     public String getDescription() {
         return description;
+        
     }
     /**
      * Sets the description of the subscription.
