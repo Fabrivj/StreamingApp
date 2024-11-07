@@ -7,6 +7,7 @@ public class ServicioStreaming {
     private String nombre;
     private String urlAutenticacion;
     private String protocolo;
+    
 
     /**
      * Constructor de la clase ServicioStreaming.
