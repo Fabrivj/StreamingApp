@@ -16,6 +16,7 @@ public class BaseDeDatosUsuarios {
         usuarios.add(new Usuario("fabrivj", "Cenfo24", "fvargasj@ucenfotec.ac.cr", "admin"));
         // Puedes agregar más usuarios de prueba aquí
         usuarios.add(new Usuario("juan", "Contra123", "juan@correo.com", "user"));
+        usuarios.add(new Usuario("LuisVega", "Contraseña","lvegaa1@ucenfotec.ac.cr","admin"));
     }
 
     // Método para obtener un usuario por nombre de usuario
