@@ -26,6 +26,9 @@ public class Authentication {
             this.UltimoAcceso = null;
         }
 
+
+
+
         // Getters and Setters
         public String getID_Unique() {
             return ID_Unique;
@@ -122,9 +125,12 @@ public class Authentication {
                 }
             }
         }
+
         System.out.println("User not found.");
         return false;
     }
+
+
 
     // Log out a user
     public boolean logout(String UserName) {

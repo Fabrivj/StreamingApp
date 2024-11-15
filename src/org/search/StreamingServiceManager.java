@@ -35,6 +35,7 @@ public class StreamingServiceManager {
     public Collection<SearchResult> consultarServicio(String query, Vector<String> configParams) {
         if (servicioActual != null) {
             servicioActual.consultar(query, configParams);
+            return servicioActual.consultar(query, configParams);
         } else {
             System.out.println("No se ha seleccionado ningún servicio.");
         }

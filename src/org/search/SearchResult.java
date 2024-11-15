@@ -31,6 +31,6 @@ public class SearchResult {
 
     @Override
     public String toString() {
-        return "Título: " + titulo + "\nDescripción: " + descripcion + "\nEnlace: " + enlace + "\nVimeo: " + plataforma;
+        return "Título: " + titulo + "\nDescripción: " + descripcion + "\nEnlace: " + enlace + "\nPlataforma: " + plataforma;
     }
 }
