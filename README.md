@@ -28,7 +28,8 @@ Luis Vega Araya
 -  **Patron Decorador:** Se implementaron varios decoradores en diferentes sitios para que con la combinación de decoradores, cada vez que llames a decoratedService.consultar(), se ejecutarán todos los comportamientos adicionales en el orden en que los has decorado: Logging: Registra la consulta, Caché: Intenta obtener los resultados de la caché si ya se hizo una consulta con el mismo término.
 -  **Patron Facade:** Se implemento en la clase StreamingServiceManager: Actúa como el Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
 - VimeoAPI: Clase para gestionar las solicitudes a la API de Vimeo, utilizando el token generado tras la autenticación.
-- Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search.
+- Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search. La funcion de este patron es  controlar el acceso a los servicios de streaming, limitando el acceso según permisos y suscripciones.
+
 # Uso del proyecto
 - **Iniciar Sesión:** Usa el método iniciarSesion en ContextoAutenticacion con usuario y contraseña para autenticarte y generar un token.
 - **Acceder a Vimeo:** Tras autenticarse, utiliza el método accederServicio para enviar solicitudes a Vimeo, verificando el token de acceso. Si el token ha expirado, el sistema cambia automáticamente al estado EstadoSesionExpirada.
