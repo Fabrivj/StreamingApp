@@ -8,6 +8,35 @@ import Login.*;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("\n------------------------------------------");
+        System.out.println("                Búsquedas                ");
+        System.out.println("------------------------------------------");
+
+        // Obtenemos la instancia del manager (Singleton)
+        StreamingServiceManager manager = StreamingServiceManager.getInstancia();
+
+        // Usar el servicio WatchMode
+        manager.setServicio(new WatchModeService());
+
+        // Configurar el servicio WatchMode
+        Vector<String> configParams = new Vector<>();
+        configParams.add("Región: US");
+        manager.configurarServicio(configParams);
+
+        // *****  BUSCAR *****
+        // Realizar una búsqueda en WatchMode
+        System.out.println("\n------------------------------------------");
+        System.out.println("   Búsqueda con parámetros (método buscar)   ");
+        System.out.println("------------------------------------------");
+        Vector<String> searchParams = new Vector<>();
+        String query = "FROZEN"; // Consulta específica para la película "Frozen La película"
+        Collection<SearchResult> resultados = manager.consultarServicio(query, new Vector<>());
+
+
+        // Mostrar los resultados de Buscar
+        for (SearchResult result : resultados) {
+            System.out.println(result.toString() + "\n");
+        }
 
         /*
         StreamingServiceManager manager = StreamingServiceManager.getInstancia();
@@ -25,7 +54,7 @@ public class Main {
         } else {
             System.out.println("No se encontró el resultado para la búsqueda: " + query);
         }
-        */
+
 
         // Crear el contexto de autenticación
         ContextoAutenticacion contexto = new ContextoAutenticacion();
@@ -88,6 +117,6 @@ public class Main {
                 default:
                     System.out.println("Opción no válida. Por favor, elige una opción válida.");
             }
-        }
+        } */
     }
 }
