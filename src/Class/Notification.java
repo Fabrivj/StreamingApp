@@ -5,7 +5,6 @@ public class Notification {
     private int idNotification;
     private String message;
     private int idUser;
-
     /**
      * Constructor para crear un objeto Notification.
      *

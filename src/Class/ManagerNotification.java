@@ -2,7 +2,6 @@ package Class;
 
 import java.util.Date;
 
-
 public class ManagerNotification {
 
     private int idManagerNotification;

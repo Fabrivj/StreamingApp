@@ -33,6 +33,7 @@ public class ContentItems {
         return idMedia;
     }
 
+    
     public void setIdMedia(String idMedia) {
         this.idMedia = idMedia;
     }
