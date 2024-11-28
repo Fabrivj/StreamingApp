@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        StreamingServiceManager manager = StreamingServiceManager.getInstancia();
+        StreamingServiceManager manager  = StreamingServiceManager.getInstancia();
         String accessToken = "5ba21cbaa50cab330f1b4fc6a3d1b61e"; // Asegúrate de usar el token correcto
         manager.setServicio(new VimeoService(accessToken)); // Pasar el token correctamente
 
