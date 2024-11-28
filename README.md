@@ -25,8 +25,22 @@ Luis Vega Araya
 -  **EstadoNoAutenticado:** Permite al usuario iniciar sesión y cambiar al estado EstadoAutenticado.
 -  **EstadoAutenticado**: Permite acceso a la API de Vimeo y verifica la validez del token.
 -  **EstadoSesionExpirada:** Solicita una nueva autenticación al detectar que el token ha expirado.
--  **Patron Decorador:** Se implementaron varios decoradores en diferentes sitios para que con la combinación de decoradores, cada vez que llames a decoratedService.consultar(), se ejecutarán todos los comportamientos adicionales en el orden en que los has decorado: Logging: Registra la consulta, Caché: Intenta obtener los resultados de la caché si ya se hizo una consulta con el mismo término.
--  **Patron Facade:** Se implemento en la clase StreamingServiceManager: Actúa como el Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
+-  **Patron Decorador:** Se implementaron varios decoradores en diferentes sitios para que con la combinación de decoradores, cada vez que llames a **decoratedService.consultar()**, se ejecutarán todos los comportamientos adicionales en el orden en que los has decorado: Logging: Registra la consulta, Caché: Intenta obtener los resultados de la caché si ya se hizo una consulta con el mismo término.
+-  **Patron Facade:** Se implementó en la clase StreamingServiceManager: Actúa como el Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
+-  **Patron Strategy:**
+    - Define dos métodos: **search(String query)** para buscar contenido y **recommend(String userPreferences)** para generar recomendaciones.
+    Cualquier clase que implemente esta interfaz debe proporcionar su propia lógica para realizar búsquedas y recomendaciones, dependiendo del servicio de 
+    streaming.
+    - Se crearon implementaciones específicas de la interfaz **SearchStrategy** como **VimeoSearchStrategy** y **API2SearchStrategy**. Estas clases implementan la 
+    lógica de búsqueda y recomendación para servicios específicos de streaming (por ejemplo, Vimeo o una API alternativa).
+   - La clase **SearchContext** es la encargada de gestionar las estrategias de búsqueda y recomendación. Mantiene una referencia a una estrategia (SearchStrategy) 
+     y delega la tarea de realizar la búsqueda y recomendaciones a la estrategia seleccionada.
+   - Gracias al patrón Strategy, puedes cambiar la lógica de búsqueda y recomendación sin modificar el resto del sistema. Solo necesitas cambiar la estrategia que 
+     se utiliza en el SearchContext en tiempo de ejecución.
+   - En el **Main.java**, el usuario tiene la opción de elegir entre diferentes estrategias de búsqueda. El sistema utiliza el patrón Strategy para cambiar la 
+     estrategia de búsqueda según la elección del usuario.
+   
+   
 - VimeoAPI: Clase para gestionar las solicitudes a la API de Vimeo, utilizando el token generado tras la autenticación.
 - Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search. La funcion de este patron es  controlar el acceso a los servicios de streaming, limitando el acceso según permisos y suscripciones.
 
