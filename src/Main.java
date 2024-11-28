@@ -1,10 +1,11 @@
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 import org.search.*;
 import Login.*;
-
+import Class.ContentItems;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,6 +33,11 @@ public class Main {
 
         // Crear un objeto Scanner para leer la entrada del usuario
         Scanner scanner = new Scanner(System.in);
+
+        // Crear el contexto de búsqueda
+        SearchContext context = new SearchContext();
+
+        context.setSearchStrategy(new VimeoSearchStrategy(accessToken));
 
         while (true) {
             // Mostrar el menú con las opciones
@@ -88,6 +94,59 @@ public class Main {
                 default:
                     System.out.println("Opción no válida. Por favor, elige una opción válida.");
             }
+            // Menú de búsqueda y recomendación
+            System.out.println("\n--- Menú de Búsqueda y Recomendación ---");
+            System.out.println("5. Buscar contenido");
+            System.out.println("6. Ver recomendaciones");
+            System.out.println("7. Cambiar API de búsqueda");
+            System.out.println("8. Volver al menú de autenticación");
+            System.out.print("Elige una opción: ");
+
+            int searchOption = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (searchOption){
+                case 5:
+                    //Realizar búsqueda
+                    System.out.print("Introduce el término de búsqueda: ");
+                    query = scanner.nextLine();
+                    List<ContentItems> searchResults = context.search(query);
+                    for (ContentItems item : searchResults) {
+                        System.out.println(item);
+                    }
+                    break;
+                case 6:
+                    //Recomendaciones
+                    System.out.println("Introduce tus preferencias(Género, Artista, etc...)");
+                    String preferences = scanner.nextLine();
+                    List<ContentItems> recommendations = context.recommend(preferences);
+                    for(ContentItems item: recommendations){
+                        System.out.println(item);
+                    }
+                    break;
+
+                case 7:
+                    // Cambiar la estrategia de búsqueda
+                    System.out.println("Selecciona la API de búsqueda:");
+                    System.out.println("1. Vimeo");
+                    System.out.println("2. API2");
+                    int apiChoice = scanner.nextInt();
+                    if (apiChoice == 1) {
+                        context.setSearchStrategy(new VimeoSearchStrategy(accessToken));
+                    } else if (apiChoice == 2) {
+                        //context.setSearchStrategy(new API2SearchStrategy()); // Si tienes esta estrategia implementada
+                    }
+                    break;
+
+                case 8:
+                    // Volver al menú de autenticación
+                    break;
+
+                default:
+                    System.out.println("Opción no válida. Por favor, elige una opción válida.");
+                    break;
+            }
+
         }
     }
 }
