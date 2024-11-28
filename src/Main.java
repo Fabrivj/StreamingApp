@@ -90,4 +90,28 @@ public class Main {
             }
         }
     }
+
+    //Este Codigo pone a prueba el Patron Proxy.
+
+    //package Class;
+    //
+    //public class Main {
+    //    public static void main(String[] args) {
+    //        // Crear dos usuarios con roles diferentes
+    //        Usuario usuarioPremium = new Usuario("premiumUser", "password123", "premium@email.com", "premium");
+    //        Usuario usuarioBasico = new Usuario("basicUser", "password456", "basic@email.com", "basic");
+    //
+    //        // Crear el proxy para cada usuario
+    //        StreamingPlatformService proxyPremium = new StreamingServiceProxy(usuarioPremium);
+    //        StreamingPlatformService proxyBasico = new StreamingServiceProxy(usuarioBasico);
+    //
+    //        // El usuario premium tiene acceso
+    //        proxyPremium.playContent("Película de acción");
+    //
+    //        // El usuario básico no tiene acceso
+    //        proxyBasico.playContent("Comedia romántica");
+    //    }
+    //}
+
+
 }
