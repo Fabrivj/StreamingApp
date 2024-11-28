@@ -26,6 +26,7 @@ Luis Vega Araya
 -  **EstadoAutenticado**: Permite acceso a la API de Vimeo y verifica la validez del token.
 -  **EstadoSesionExpirada:** Solicita una nueva autenticación al detectar que el token ha expirado.
 - VimeoAPI: Clase para gestionar las solicitudes a la API de Vimeo, utilizando el token generado tras la autenticación.
+- Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search.
 # Uso del proyecto
 - **Iniciar Sesión:** Usa el método iniciarSesion en ContextoAutenticacion con usuario y contraseña para autenticarte y generar un token.
 - **Acceder a Vimeo:** Tras autenticarse, utiliza el método accederServicio para enviar solicitudes a Vimeo, verificando el token de acceso. Si el token ha expirado, el sistema cambia automáticamente al estado EstadoSesionExpirada.
