@@ -16,7 +16,6 @@ public class User_Preference {
         this.preferredRegion = preferredRegion;
     }
 
-    // Getters and Setters
     public String getUserId() {
         return userId;
     }
