@@ -42,6 +42,7 @@ Luis Vega Araya
    
    
 - VimeoAPI: Clase para gestionar las solicitudes a la API de Vimeo, utilizando el token generado tras la autenticación.
+-  **Patron Proxy:**
 - Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search. La funcion de este patron es  controlar el acceso a los servicios de streaming, limitando el acceso según permisos y suscripciones.
 
 # Uso del proyecto
