@@ -13,12 +13,11 @@ public class BaseDeDatosUsuarios {
         this.usuarios = new ArrayList<>();
 
         // Agregar usuarios predefinidos
-        usuarios.add(new Usuario("fabrivj", "Cenfo24", "fvargasj@ucenfotec.ac.cr", "admin"));
+        usuarios.add(new Usuario("fabrivj", "Cenfo24", "fvargasj@ucenfotec.ac.cr", "premium"));
         usuarios.add(new Usuario("Andrey", "1234", "afbonilla1234@gmail.com", "premium"));
         usuarios.add(new Usuario("Luis", "1234", "Lvegaa@ucenfotec.ac.cr", "basic"));
     }
 
-    // Método para obtener un usuario por nombre de usuario
     public Usuario obtenerUsuario(String username) {
         for (Usuario usuario : usuarios) {
             if (usuario.getUsername().equals(username)) {
@@ -28,9 +27,4 @@ public class BaseDeDatosUsuarios {
         return null;  // Si no se encuentra el usuario
     }
 
-    // Método para validar las credenciales
-    public boolean validarCredenciales(String username, String password) {
-        Usuario usuario = obtenerUsuario(username);
-        return usuario != null && usuario.getPassword().equals(password);
-    }
 }

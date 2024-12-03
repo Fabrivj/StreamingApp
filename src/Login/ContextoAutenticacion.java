@@ -4,6 +4,7 @@ import Class.Usuario;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import BD.BaseDeDatosUsuarios;
 
 /**
  * Clase que representa el contexto de autenticación, que gestiona el estado actual
@@ -14,23 +15,17 @@ public class ContextoAutenticacion {
     private Usuario usuarioActual;
     private String token;
     private long tokenExpirationTime;  // Tiempo de expiración del token en milisegundos
+    private BaseDeDatosUsuarios baseDeDatosUsuarios;
 
     // Duración del token en milisegundos (por ejemplo, 30 minutos)
     private static final long TOKEN_DURATION_MS = 30 * 60 * 1000;
-
-    // Simulación de una base de datos de usuarios
-    private static final Map<String, Usuario> baseDeDatosUsuarios = new HashMap<>();
-
-    static {
-        // Crear un usuario de prueba (username: "fabrivj", password: "Cenfo24")
-        baseDeDatosUsuarios.put("fabrivj", new Usuario("fabrivj", "Cenfo24", "fvargasj@ucenfotec.ac.cr", "admin"));
-    }
 
     /**
      * Constructor que inicializa el contexto de autenticación en el estado no autenticado.
      */
     public ContextoAutenticacion() {
         this.estadoActual = new EstadoNoAutenticado(); // Estado inicial
+        this.baseDeDatosUsuarios = new BaseDeDatosUsuarios(); // Inicializa la base de datos de usuarios
     }
 
     /**
@@ -86,7 +81,6 @@ public class ContextoAutenticacion {
     public void generarToken(String username) {
         this.token = "TOKEN-" + UUID.randomUUID();  // Genera un token único y seguro
         this.tokenExpirationTime = System.currentTimeMillis() + TOKEN_DURATION_MS;  // Establece la expiración del token
-        System.out.println("Token generado: " + token);
     }
 
     /**
@@ -97,7 +91,8 @@ public class ContextoAutenticacion {
      * @return true si las credenciales son válidas; false en caso contrario.
      */
     public boolean validarCredenciales(String username, String password) {
-        Usuario usuario = baseDeDatosUsuarios.get(username);
+        Usuario usuario = baseDeDatosUsuarios.obtenerUsuario(username); // Obtiene el usuario de la base de datos
+        setUsuarioActual(usuario);
         return usuario != null && usuario.getPassword().equals(password);
     }
 

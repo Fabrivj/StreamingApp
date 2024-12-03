@@ -15,7 +15,7 @@ public class VideoStreamingService implements StreamingPlatformService {
     @Override
     public boolean hasAccess(Usuario usuario) {
         // Aquí verificamos el rol del usuario para determinar si tiene acceso.
-        if (usuario.getRole().equals("premium")) {
+        if (usuario.getTipoUsuario().equals("premium")) {
             return true;
         }
         return false;

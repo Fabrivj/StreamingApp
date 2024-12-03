@@ -30,8 +30,6 @@ public class EstadoNoAutenticado implements EstadoAutenticacion {
     @Override
     public void iniciarSesion(ContextoAutenticacion contexto, String username, String password) {
         if (contexto.validarCredenciales(username, password)) {
-            Usuario usuario = new Usuario(username, password, "fvargasj@ucenfotec.ac.cr", "admin");
-            contexto.setUsuarioActual(usuario);  // Guardamos el usuario actual
             contexto.generarToken(username);  // Generamos el token
             System.out.println("Inicio de sesión exitoso.");
             System.out.println("Token generado: " + contexto.getToken());
