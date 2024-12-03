@@ -12,41 +12,78 @@ Luis Vega Araya
 - Crear una app https://developer.vimeo.com/apps
 - Generar personal token
 # Características del Sistema
-- **Patrón State:** Implementación de un sistema de estados de sesión que permite cambiar entre los siguientes estados:
-- **EstadoNoAutenticado:** Usuario no autenticado, permite iniciar sesión.
-- **EstadoAutenticado:** Usuario autenticado, permite acceder a los servicios y a la API de Vimeo.
-- **EstadoSesionExpirada:** La sesión ha expirado, solicitando una nueva autenticación.
-- **Autenticación Segura con Tokens:** Al iniciar sesión, se genera un token de acceso que se utiliza para interactuar con la API de Vimeo.
-- **Interacción con Vimeo:** Permite realizar solicitudes autenticadas a Vimeo mediante el token generado.
-# Estructura del proyecto
-- **EstadoAutenticacion:** Interfaz que define los métodos iniciarSesion(), accederServicio(), y cerrarSesion().
-- **ContextoAutenticacion:** Clase que gestiona el estado actual y permite los cambios entre estados según el flujo de autenticación.
-- **Estados de Autenticación:**
--  **EstadoNoAutenticado:** Permite al usuario iniciar sesión y cambiar al estado EstadoAutenticado.
--  **EstadoAutenticado**: Permite acceso a la API de Vimeo y verifica la validez del token.
--  **EstadoSesionExpirada:** Solicita una nueva autenticación al detectar que el token ha expirado.
--  **Patron Decorador:** Se implementaron varios decoradores en diferentes sitios para que con la combinación de decoradores, cada vez que llames a **decoratedService.consultar()**, se ejecutarán todos los comportamientos adicionales en el orden en que los has decorado: Logging: Registra la consulta, Caché: Intenta obtener los resultados de la caché si ya se hizo una consulta con el mismo término.
--  **Patron Facade:** Se implementó en la clase StreamingServiceManager: Actúa como el Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
--  **Patron Strategy:**
-    - Define dos métodos: **search(String query)** para buscar contenido y **recommend(String userPreferences)** para generar recomendaciones.
-    Cualquier clase que implemente esta interfaz debe proporcionar su propia lógica para realizar búsquedas y recomendaciones, dependiendo del servicio de 
-    streaming.
-    - Se crearon implementaciones específicas de la interfaz **SearchStrategy** como **VimeoSearchStrategy** y **API2SearchStrategy**. Estas clases implementan la 
-    lógica de búsqueda y recomendación para servicios específicos de streaming (por ejemplo, Vimeo o una API alternativa).
-   - La clase **SearchContext** es la encargada de gestionar las estrategias de búsqueda y recomendación. Mantiene una referencia a una estrategia (SearchStrategy) 
-     y delega la tarea de realizar la búsqueda y recomendaciones a la estrategia seleccionada.
-   - Gracias al patrón Strategy, puedes cambiar la lógica de búsqueda y recomendación sin modificar el resto del sistema. Solo necesitas cambiar la estrategia que 
-     se utiliza en el SearchContext en tiempo de ejecución.
-   - En el **Main.java**, el usuario tiene la opción de elegir entre diferentes estrategias de búsqueda. El sistema utiliza el patrón Strategy para cambiar la 
-     estrategia de búsqueda según la elección del usuario.
-   
-   
-- VimeoAPI: Clase para gestionar las solicitudes a la API de Vimeo, utilizando el token generado tras la autenticación.
--  **Patron Proxy:**
-- Clases para ejecutar el  patron de Proxy se implementan dentro de la carpeta org.search. La funcion de este patron es  controlar el acceso a los servicios de streaming, limitando el acceso según permisos y suscripciones.
-
-# Uso del proyecto
-- **Iniciar Sesión:** Usa el método iniciarSesion en ContextoAutenticacion con usuario y contraseña para autenticarte y generar un token.
-- **Acceder a Vimeo:** Tras autenticarse, utiliza el método accederServicio para enviar solicitudes a Vimeo, verificando el token de acceso. Si el token ha expirado, el sistema cambia automáticamente al estado EstadoSesionExpirada.
-- **Cerrar Sesión:** Usa el método cerrarSesion para invalidar el token y volver al estado EstadoNoAutenticado.
+# 1. Patrón State:
+El sistema de autenticación está diseñado con el patrón State, lo que permite cambiar dinámicamente entre los estados de sesión según el flujo de trabajo:
+-EstadoNoAutenticado:
+-Usuario no autenticado.
+-Solo permite iniciar sesión.
+-EstadoAutenticado:
+-Usuario autenticado.
+Permite acceder a los servicios y la API de Vimeo mediante un token válido.
+-EstadoSesionExpirada:
+La sesión ha caducado.
+-Solicita autenticación nuevamente.
+# 2. Autenticación Segura con Tokens:
+Al iniciar sesión, el sistema genera un token de acceso.
+Este token se utiliza para interactuar con la API de Vimeo.
+La validez del token se verifica constantemente para mantener la seguridad.
+# 3. Interacción con Vimeo:
+El sistema permite realizar solicitudes autenticadas a Vimeo utilizando el token generado.
+Las solicitudes se manejan a través de un diseño orientado a patrones para mantener un código limpio y modular.
+# Estructura del Proyecto
+Clases y Patrones Implementados:
+# 1. Patrón State:
+EstadoAutenticacion:
+Interfaz que define los métodos iniciarSesion(), accederServicio() y cerrarSesion().
+ContextoAutenticacion:
+Clase que gestiona el estado actual de autenticación y permite cambios entre estados según el flujo de trabajo.
+Estados Específicos:
+EstadoNoAutenticado: Permite al usuario iniciar sesión y transicionar al estado autenticado.
+EstadoAutenticado:
+Proporciona acceso a la API de Vimeo.
+Verifica la validez del token.
+EstadoSesionExpirada:
+Detecta un token inválido o caducado.
+Solicita una nueva autenticación.
+# 2. Patrón Decorador:
+Este patrón se implementa para agregar comportamientos adicionales de manera dinámica a las funcionalidades de búsqueda de servicios.
+Ejemplo de decoradores implementados:
+Logging: Registra cada consulta realizada.
+Caché: Almacena resultados de consultas anteriores para reducir el tiempo de respuesta en búsquedas repetidas.
+Cada vez que se llama a decoratedService.consultar(), se ejecutan los comportamientos adicionales en el orden en que se aplicaron los decoradores.
+# 3. Patrón Facade:
+La clase StreamingServiceManager actúa como un Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
+Esto oculta la complejidad interna y ofrece una interfaz clara y directa para los usuarios.
+# 4. Patrón Strategy:
+SearchStrategy: Interfaz que define los métodos search(String query) y recommend(String userPreferences).
+Implementaciones específicas:
+VimeoSearchStrategy: Estrategia para realizar búsquedas y recomendaciones en Vimeo.
+API2SearchStrategy: Alternativa para otras plataformas de streaming.
+# SearchContext:
+Permite cambiar dinámicamente entre estrategias según la plataforma seleccionada.
+Mantiene una referencia a la estrategia actual y delega las solicitudes a esta.
+Ejemplo: El usuario selecciona una estrategia en tiempo de ejecución, como Vimeo o una API alternativa, y el sistema adapta su lógica de búsqueda automáticamente.
+# 5. Patrón Proxy:
+Las clases relacionadas con este patrón están en el paquete org.search.
+Funcionalidad del Proxy:
+Controlar el acceso a los servicios de streaming según los permisos del usuario.
+Validar roles, como usuarios "premium" o "básicos", para permitir o denegar el acceso a contenido específico.
+Proporcionar un punto de control para la gestión de suscripciones y permisos.
+Implementación:
+StreamingPlatformService: Interfaz común para los servicios de streaming.
+VideoStreamingService: Implementa la lógica real de acceso al contenido.
+Proxy dinámico:
+Antes de delegar la solicitud al servicio real, el proxy verifica si el usuario tiene los permisos necesarios.
+Si no tiene acceso, muestra un mensaje apropiado y evita realizar operaciones no permitidas.
+Uso del Proyecto
+# 1. Iniciar Sesión:
+Llama al método iniciarSesion en ContextoAutenticacion con las credenciales del usuario.
+Si las credenciales son válidas, se genera un token para autenticar las solicitudes.
+# 2. Acceder a Vimeo:
+Tras autenticarse, usa el método accederServicio para enviar solicitudes a Vimeo.
+El sistema verifica la validez del token antes de realizar cualquier operación.
+Si el token ha expirado, el estado cambia automáticamente a EstadoSesionExpirada.
+# 3. Cerrar Sesión:
+Llama al método cerrarSesion para invalidar el token.
+Esto transiciona el sistema al estado EstadoNoAutenticado.
    
