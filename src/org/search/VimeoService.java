@@ -16,11 +16,12 @@ import java.util.Vector;
 
 public class VimeoService implements StreamingService {
 
-    public VimeoService(String accessToken) {
-        this.accessToken = accessToken;
+    public VimeoService() {
+        this.accessToken = "5ba21cbaa50cab330f1b4fc6a3d1b61e";
     }
 
     private String accessToken;
+
     @Override
     public void configurar(Collection<String> configParams) {
         for (String param : configParams) {
