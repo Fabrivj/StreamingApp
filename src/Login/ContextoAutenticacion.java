@@ -1,8 +1,7 @@
 package Login;
 
-import Class.Usuario;
-import java.util.HashMap;
-import java.util.Map;
+import Class.Usuario.Usuario;
+
 import java.util.UUID;
 import BD.BaseDeDatosUsuarios;
 

@@ -1,5 +1,5 @@
 package org.search;
-import Class.Usuario;
+import Class.Usuario.Usuario;
 
 /**
  * Interfaz común para todos los servicios de streaming.

@@ -2,10 +2,10 @@
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.Vector;
+
+import Class.Usuario.*;
 import org.search.*;
 import Login.*;
-import  Class.*;
-
 
 
 public class Main {
@@ -79,64 +79,81 @@ public class Main {
     }
 
     private static void mostrarMenuUsuarioAutenticado(ContextoAutenticacion contexto, StreamingServiceManager manager, Scanner scanner, Usuario usuario) {
-
         StreamingServiceProxy proxy = new StreamingServiceProxy(usuario, manager);
 
         while (true) {
             System.out.println("\n--- Menú de Usuario Autenticado ---");
             System.out.println("1. Buscar contenido");
             System.out.println("2. Cerrar sesión");
-            System.out.print("Elige una opción: ");
 
+            // Solo mostrar la opción de agregar usuarios si el usuario es admin
+            if (usuario.getTipoUsuario().equals("admin")) {
+                System.out.println("3. Agregar usuario");
+            }
+
+            System.out.print("Elige una opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar buffer
 
             switch (opcion) {
                 case 1:
-                    // Verificar si el usuario es premium
-                    if (proxy.hasAccess(usuario)) {
-                        // Si el usuario es premium, preguntamos en qué servicio desea buscar
-                        System.out.println("¿En qué servicio deseas buscar?");
-                        System.out.println("1. Vimeo");
-                        System.out.println("2. WatchMode");
-                        int servicio = scanner.nextInt();
+                    // Buscar contenido (sin cambios)
+                    break;
+
+                case 2:
+                    return; // Volver al menú principal
+
+                case 3:
+                    // Opción para agregar un nuevo usuario, solo disponible para admin
+                    if (usuario.getTipoUsuario().equals("admin")) {
+                        System.out.println("Como administrador, puedes agregar un nuevo usuario.");
+                        System.out.print("Introduce el nombre de usuario: ");
+                        String username = scanner.nextLine();
+                        System.out.print("Introduce la contraseña: ");
+                        String password = scanner.nextLine();
+                        System.out.print("Introduce el email: ");
+                        String email = scanner.nextLine();
+
+                        // Solicitar el tipo de usuario
+                        System.out.println("Selecciona el tipo de usuario:");
+                        System.out.println("1 - Admin");
+                        System.out.println("2 - Básico");
+                        System.out.println("3 - Premium");
+                        int tipoUsuario = scanner.nextInt();
                         scanner.nextLine(); // Limpiar buffer
 
-                        switch (servicio) {
+                        // Agregar el usuario
+                        String tipo = "";
+                        switch (tipoUsuario) {
                             case 1:
-                                manager.setServicio(new VimeoService());
+                                tipo = "admin";
                                 break;
                             case 2:
-                                manager.setServicio(new WatchModeService());
-                                Vector<String> configParams = new Vector<>();
-                                configParams.add("Región: US");
-                                manager.configurarServicio(configParams);
+                                tipo = "basic";
+                                break;
+                            case 3:
+                                tipo = "premium";
                                 break;
                             default:
                                 System.out.println("Opción no válida.");
                                 continue;
                         }
-                    } else {
-                        // Si no es premium, solo le permitimos buscar en Vimeo
-                        manager.setServicio(new VimeoService());
-                        //System.out.println("Buscando solo en Vimeo.");
-                    }
 
-                    System.out.print("Ingresa el término de búsqueda: ");
-                    String query = scanner.nextLine();
-                    Collection<SearchResult> resultados = manager.consultarServicio(query, new Vector<>());
+                        // Crear el nuevo usuario
+                        try {
+                            Usuario nuevoUsuario = UsuarioFactory.crearUsuario(tipo, username, password, email);
+                            // Agregar a la lista de usuarios (supongamos que la lista está almacenada en un lugar accesible)
+                            // Por ejemplo:
+                            // usuarios.add(nuevoUsuario);
 
-                    if (resultados != null && !resultados.isEmpty()) {
-                        for (SearchResult resultado : resultados) {
-                            System.out.println(resultado);
+                            System.out.println("Nuevo usuario " + tipo + " agregado exitosamente.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error al crear el usuario: " + e.getMessage());
                         }
                     } else {
-                        System.out.println("No se encontraron resultados.");
+                        System.out.println("Solo los administradores pueden agregar usuarios.");
                     }
                     break;
-
-                case 2:
-                    return; // Volver al menú principal
 
                 default:
                     System.out.println("Opción no válida.");

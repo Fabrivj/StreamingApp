@@ -1,7 +1,5 @@
 package Login;
 
-import Class.Usuario;
-
 /**
  * La clase {@code EstadoAutenticado} representa el estado en el cual el usuario está autenticado.
  * Implementa la interfaz {@code EstadoAutenticacion} para manejar las acciones permitidas en este estado.

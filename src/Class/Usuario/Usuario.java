@@ -1,4 +1,4 @@
-package Class;
+package Class.Usuario;
 
 /**
  * Clase que representa a un usuario en el sistema.
@@ -17,7 +17,7 @@ public class Usuario {
      * @param email       El correo electrónico del usuario.
      * @param tipoUsuario El tipo de usuario ("premium" o "básico").
      */
-    public Usuario(String username, String password, String email, String tipoUsuario) {
+    protected Usuario(String username, String password, String email, String tipoUsuario) {
         this.username = username;
         this.password = password;
         this.email = email;

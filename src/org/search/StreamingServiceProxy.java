@@ -1,6 +1,6 @@
 package org.search;
 
-import Class.Usuario;
+import Class.Usuario.Usuario;
 
 import java.util.Collection;
 import java.util.Vector;
