@@ -86,4 +86,6 @@ Si el token ha expirado, el estado cambia automáticamente a EstadoSesionExpirad
 # 3. Cerrar Sesión:
 Llama al método cerrarSesion para invalidar el token.
 Esto transiciona el sistema al estado EstadoNoAutenticado.
+#Patron Factory
+En este proyecto, se implementa el patrón Factory para crear instancias de usuarios con diferentes roles (Administrador, Básico, Premium). La clase UsuarioFactory se encarga de crear el tipo de usuario adecuado según el parámetro de tipo recibido, sin necesidad de instanciar directamente las clases específicas. Esto permite una mayor flexibilidad y facilita la adición de nuevos tipos de usuario en el futuro.
    
