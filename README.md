@@ -64,6 +64,6 @@ VideoStreamingService: Implementa la lógica real de acceso al contenido.
 Proxy dinámico:
 Antes de delegar la solicitud al servicio real, el proxy verifica si el usuario tiene los permisos necesarios.
 Si no tiene acceso, muestra un mensaje apropiado y evita realizar operaciones no permitidas.
-#Patron Factory
+# Patron Factory
 En este proyecto, se implementa el patrón Factory para crear instancias de usuarios con diferentes roles (Administrador, Básico, Premium). La clase UsuarioFactory se encarga de crear el tipo de usuario adecuado según el parámetro de tipo recibido, sin necesidad de instanciar directamente las clases específicas. Esto permite una mayor flexibilidad y facilita la adición de nuevos tipos de usuario en el futuro.
    
