@@ -64,4 +64,10 @@ Antes de delegar la solicitud al servicio real, el proxy verifica si el usuario 
 Si no tiene acceso, muestra un mensaje apropiado y evita realizar operaciones no permitidas.
 # 6. Patron Factory
 En este proyecto, se implementa el patrón Factory para crear instancias de usuarios con diferentes roles (Administrador, Básico, Premium). La clase UsuarioFactory se encarga de crear el tipo de usuario adecuado según el parámetro de tipo recibido, sin necesidad de instanciar directamente las clases específicas. Esto permite una mayor flexibilidad y facilita la adición de nuevos tipos de usuario en el futuro.
+# 7. Patron Observer 
+Subject (Sujeto): Es la clase que mantiene una lista de observadores y gestiona su registro, eliminación y notificación. En tu proyecto, esto lo realiza la clase StreamingServiceManager.
+Observer (Observador): Es la interfaz o clase que define el método update(), que es llamado cuando el Subject notifica un cambio. En tu caso, la clase Usuario implementa esta funcionalidad.
+Los usuarios se registran como observadores al StreamingServiceManager al iniciar sesión.
+Cuando el estado de búsqueda cambia, el StreamingServiceManager notifica a todos los observadores registrados (los usuarios).
+Cada observador (usuario) responde al cambio a través de su método update(), mostrando un mensaje de notificación sobre el nuevo estado.
    
