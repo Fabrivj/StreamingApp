@@ -1,9 +1,11 @@
 package Class.Usuario;
 
+import Notificaciones.Observer;
+
 /**
- * Clase que representa a un usuario en el sistema.
+ * Clase que representa a un usuario en el sistema y que actúa como observador.
  */
-public class Usuario {
+public class Usuario implements Observer {
     private String username;
     private String password;
     private String email;
@@ -69,5 +71,16 @@ public class Usuario {
                 ", email='" + email + '\'' +
                 ", tipoUsuario='" + tipoUsuario + '\'' +
                 '}';
+    }
+
+    /**
+     * Método de la interfaz Observer para recibir notificaciones.
+     * Este método es llamado cuando se realiza una acción relevante en el sistema.
+     *
+     * @param estadoBusqueda El mensaje o estado enviado por el sujeto.
+     */
+
+    public static void actualizar(String estadoBusqueda) {
+        System.out.println(estadoBusqueda);
     }
 }

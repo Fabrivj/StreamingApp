@@ -81,6 +81,10 @@ public class Main {
     private static void mostrarMenuUsuarioAutenticado(ContextoAutenticacion contexto, StreamingServiceManager manager, Scanner scanner, Usuario usuario) {
         StreamingServiceProxy proxy = new StreamingServiceProxy(usuario, manager);
 
+        // Suscribir al usuario para recibir notificaciones de cambios
+        manager.agregarObserver(usuario);  // El usuario se suscribe al manager para recibir notificaciones
+        System.out.println("Usuario " + usuario.getUsername() + " agregado como observador.");  // Depuración
+
         while (true) {
             System.out.println("\n--- Menú de Usuario Autenticado ---");
             System.out.println("1. Buscar contenido");
@@ -97,14 +101,69 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    // Buscar contenido (sin cambios)
+                    // Verificar si el usuario es premium
+                    if (proxy.hasAccess(usuario)) {
+                        System.out.println("¿En qué servicio deseas buscar?");
+                        System.out.println("1. Vimeo");
+                        System.out.println("2. WatchMode");
+                        int servicio = scanner.nextInt();
+                        scanner.nextLine(); // Limpiar buffer
+
+                        switch (servicio) {
+                            case 1:
+                                manager.setServicio(new VimeoService());
+                                break;
+                            case 2:
+                                manager.setServicio(new WatchModeService());
+                                Vector<String> configParams = new Vector<>();
+                                configParams.add("Región: US");
+                                manager.configurarServicio(configParams);
+                                break;
+                            default:
+                                System.out.println("Opción no válida.");
+                                continue;
+                        }
+                    } else {
+                        manager.setServicio(new VimeoService());
+                    }
+
+                    System.out.println("Selecciona el tipo de búsqueda:");
+                    System.out.println("1. Por popularidad");
+                    System.out.println("2. Por relevancia");
+                    int tipoBusqueda = scanner.nextInt();
+                    scanner.nextLine(); // Limpiar buffer
+
+                    AlgoritmoBusqueda estrategiaBusqueda;
+                    switch (tipoBusqueda) {
+                        case 1:
+                            estrategiaBusqueda = new BusquedaPorPopularidad();
+                            break;
+                        case 2:
+                            estrategiaBusqueda = new BusquedaPorRelevancia();
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                            continue;
+                    }
+
+                    System.out.print("Ingresa el término de búsqueda: ");
+                    String query = scanner.nextLine();
+                    Collection<SearchResult> resultados = estrategiaBusqueda.buscar(query, manager);
+
+                    // Mostrar los resultados de la búsqueda
+                    if (resultados != null && !resultados.isEmpty()) {
+                        for (SearchResult resultado : resultados) {
+                            System.out.println(resultado);
+                        }
+                    } else {
+                        System.out.println("No se encontraron resultados.");
+                    }
                     break;
 
                 case 2:
-                    return; // Volver al menú principal
+                    return;
 
                 case 3:
-                    // Opción para agregar un nuevo usuario, solo disponible para admin
                     if (usuario.getTipoUsuario().equals("admin")) {
                         System.out.println("Como administrador, puedes agregar un nuevo usuario.");
                         System.out.print("Introduce el nombre de usuario: ");
@@ -114,7 +173,6 @@ public class Main {
                         System.out.print("Introduce el email: ");
                         String email = scanner.nextLine();
 
-                        // Solicitar el tipo de usuario
                         System.out.println("Selecciona el tipo de usuario:");
                         System.out.println("1 - Admin");
                         System.out.println("2 - Básico");
@@ -122,33 +180,23 @@ public class Main {
                         int tipoUsuario = scanner.nextInt();
                         scanner.nextLine(); // Limpiar buffer
 
-                        // Agregar el usuario
-                        String tipo = "";
-                        switch (tipoUsuario) {
-                            case 1:
-                                tipo = "admin";
-                                break;
-                            case 2:
-                                tipo = "basic";
-                                break;
-                            case 3:
-                                tipo = "premium";
-                                break;
-                            default:
+                        String tipo = switch (tipoUsuario) {
+                            case 1 -> "admin";
+                            case 2 -> "basic";
+                            case 3 -> "premium";
+                            default -> {
                                 System.out.println("Opción no válida.");
-                                continue;
-                        }
+                                yield "";
+                            }
+                        };
 
-                        // Crear el nuevo usuario
-                        try {
-                            Usuario nuevoUsuario = UsuarioFactory.crearUsuario(tipo, username, password, email);
-                            // Agregar a la lista de usuarios (supongamos que la lista está almacenada en un lugar accesible)
-                            // Por ejemplo:
-                            // usuarios.add(nuevoUsuario);
-
-                            System.out.println("Nuevo usuario " + tipo + " agregado exitosamente.");
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Error al crear el usuario: " + e.getMessage());
+                        if (!tipo.isEmpty()) {
+                            try {
+                                Usuario nuevoUsuario = UsuarioFactory.crearUsuario(tipo, username, password, email);
+                                System.out.println("Nuevo usuario " + tipo + " agregado exitosamente.");
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("Error al crear el usuario: " + e.getMessage());
+                            }
                         }
                     } else {
                         System.out.println("Solo los administradores pueden agregar usuarios.");
@@ -160,4 +208,5 @@ public class Main {
             }
         }
     }
+
 }

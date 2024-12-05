@@ -1,11 +1,17 @@
 package org.search;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
-public class StreamingServiceManager {
+import Notificaciones.*;
+
+public class StreamingServiceManager implements Subject {
     private static StreamingServiceManager instancia;
     private StreamingService servicioActual;
+    private List<Observer> observers = new ArrayList<>();
+    private String estadoBusqueda;
 
     // Constructor privado para el Singleton
     private StreamingServiceManager() {}
@@ -24,12 +30,6 @@ public class StreamingServiceManager {
     }
 
     // Llamadas delegadas a la implementación del servicio actual
-
-    /**
-     * Configura el servicio de streaming con los parámetros especificados.
-     *
-     * @param configuracionServicio Los parámetros de configuración para el servicio.
-     */
     public void configurarServicio(Vector<String> configuracionServicio) {
         if (servicioActual != null) {
             servicioActual.configurar(configuracionServicio);
@@ -38,13 +38,6 @@ public class StreamingServiceManager {
         }
     }
 
-    /**
-     * Consulta contenido en el servicio configurado actualmente.
-     *
-     * @param query        La consulta de búsqueda.
-     * @param configParams Parámetros adicionales para la búsqueda.
-     * @return Una colección de resultados de búsqueda o null si no hay servicio configurado.
-     */
     public Collection<SearchResult> consultarServicio(String query, Vector<String> configParams) {
         if (servicioActual != null) {
             return servicioActual.consultar(query, configParams);
@@ -54,17 +47,32 @@ public class StreamingServiceManager {
         }
     }
 
-    /**
-     * Busca contenido en el servicio configurado actualmente.
-     *
-     * @param query        La consulta de búsqueda.
-     * @param configParams Parámetros adicionales para la búsqueda.
-     */
     public void buscarEnServicio(String query, Vector<String> configParams) {
         if (servicioActual != null) {
             servicioActual.buscar(query, configParams);
+            // Actualizamos el estado de la búsqueda
+            this.estadoBusqueda = "Búsqueda realizada con éxito.";
+            notificarObservers(); // Notificamos a los observadores después de la búsqueda
         } else {
             System.out.println("No se ha seleccionado ningún servicio.");
         }
     }
+
+    @Override
+    public void agregarObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void eliminarObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notificarObservers() {
+        for (Observer observer : observers) {
+            Observer.actualizar(estadoBusqueda); // Notificar a cada observador con el estado actual
+        }
+    }
+
 }
