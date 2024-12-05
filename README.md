@@ -44,10 +44,8 @@ Cada vez que se llama a decoratedService.consultar(), se ejecutan los comportami
 La clase StreamingServiceManager actúa como un Facade, proporcionando métodos simplificados para interactuar con los servicios de streaming.
 Esto oculta la complejidad interna y ofrece una interfaz clara y directa para los usuarios.
 # 4. Patrón Strategy:
-SearchStrategy: Interfaz que define los métodos search(String query) y recommend(String userPreferences).
-Implementaciones específicas:
-VimeoSearchStrategy: Estrategia para realizar búsquedas y recomendaciones en Vimeo.
-API2SearchStrategy: Alternativa para otras plataformas de streaming.
+Se define una interfaz AlgoritmoBusqueda que declara el método buscar. Las clases concretas como BusquedaPorPopularidad y BusquedaPorRelevancia implementan esta interfaz y proporcionan su propia lógica para realizar las búsquedas.
+En el menú del usuario autenticado, se permite seleccionar el algoritmo de búsqueda deseado. Esto garantiza una mayor flexibilidad y extensibilidad, ya que se pueden agregar nuevas estrategias de búsqueda sin modificar el código existente.
 # SearchContext:
 Permite cambiar dinámicamente entre estrategias según la plataforma seleccionada.
 Mantiene una referencia a la estrategia actual y delega las solicitudes a esta.
